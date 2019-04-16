@@ -13,6 +13,16 @@ cd aiida-qe-docker-dev
 docker build --build-arg GID=`id -g` --build-arg UID=`id -u` -t aiida-qe-dev .
 ```
 
+You can also build an image to work with legacy python:
+
+```
+docker build \
+    --build-arg GID=`id -g`
+    --build-arg UID=`id -u`
+    --build-arg PYTHON=python
+    -t aiida-qe-dev:py2 .
+```
+
 Then you're ready to start developing against your own clone of aiida quantum
 espresso:
 
