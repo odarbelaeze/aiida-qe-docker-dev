@@ -30,6 +30,7 @@ verdi computer setup \
     --description "Best computer in the world" \
     --transport "local" \
     --scheduler direct \
+    --work-dir "/home/{username}/scratch/" \
     --mpiprocs-per-machine 4
 
 verdi computer configure "local" localhost \

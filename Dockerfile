@@ -2,6 +2,7 @@ FROM ubuntu:latest
 
 ARG UID=1000
 ARG GID=1000
+ARG PYTHON=python3
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y update && apt-get install -y locales
@@ -18,7 +19,7 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 RUN apt-get install -y \
-    python3 python3-venv python3-dev \
+    ${PYTHON} ${PYTHON}-virtualenv ${PYTHON}-dev \
     postgresql build-essential \
     rabbitmq-server \
     quantum-espresso \
@@ -35,7 +36,7 @@ WORKDIR /home/aiida
 # Prepare virtual environment with latest aiida core develop and latest plugin
 RUN wget https://github.com/aiidateam/aiida-quantumespresso/archive/develop.zip \
     && unzip develop.zip && rm develop.zip \
-    && python3 -m venv venv && . venv/bin/activate \
+    && ${PYTHON} -m virtualenv --python=${PYTHON} venv && . venv/bin/activate \
     && pip install -U "pip<19" \
     && pip install -U git+https://github.com/aiidateam/aiida_core@develop \
     && pip install "./aiida-quantumespresso-develop[dev]"
