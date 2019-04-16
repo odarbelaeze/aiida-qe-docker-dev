@@ -9,7 +9,8 @@ First you need to build the image:
 ```
 git clone https://github.com/odarbelaeze/aiida-qe-docker-dev.git
 cd aiida-qe-docker-dev
-docker build -t aiida-qe-dev .
+# The args make the aiida user match your user
+docker build --build-arg GID=`id -g` --build-arg UID=`id -u` -t aiida-qe-dev .
 ```
 
 Then you're ready to start developing against your own clone of aiida quantum

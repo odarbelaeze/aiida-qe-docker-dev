@@ -1,5 +1,8 @@
 FROM ubuntu:latest
 
+ARG UID=1000
+ARG GID=1000
+
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y update && apt-get install -y locales
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
@@ -21,9 +24,11 @@ RUN apt-get install -y \
     quantum-espresso \
     sudo git wget unzip
 
-RUN adduser --disabled-password --gecos '' aiida
-RUN adduser aiida sudo
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN addgroup --gid ${GID} aiida \
+    && adduser --disabled-password --gecos '' --gid ${GID} --uid ${UID} aiida \
+    && adduser aiida sudo \
+    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
 USER aiida:aiida
 WORKDIR /home/aiida
 
