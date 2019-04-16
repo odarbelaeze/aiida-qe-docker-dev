@@ -19,25 +19,30 @@ RUN apt-get install -y \
     postgresql build-essential \
     rabbitmq-server \
     quantum-espresso \
-    sudo git
+    sudo git wget unzip
 
 RUN adduser --disabled-password --gecos '' aiida
 RUN adduser aiida sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-
 USER aiida:aiida
 WORKDIR /home/aiida
-COPY --chown=aiida:aiida ./latest-dev.tar.gz /home/aiida/latest-dev.tar.gz
-RUN tar -xf latest-dev.tar.gz \
+
+# Prepare virtual environment with latest aiida core develop and latest plugin
+RUN wget https://github.com/aiidateam/aiida-quantumespresso/archive/develop.zip \
+    && unzip develop.zip && rm develop.zip \
     && python3 -m venv venv && . venv/bin/activate \
     && pip install -U "pip<19" \
     && pip install -U git+https://github.com/aiidateam/aiida_core@develop \
-    && pip install -e "./original[dev]"
+    && pip install "./aiida-quantumespresso-develop[dev]"
 
-COPY --chown=aiida:aiida ./SSSP_efficiency_pseudos /home/aiida/pseudos
+
+# Prepare the database so that verdi has some prerequisits to run from
 COPY bootstrap.sh bootstrap.sh
-RUN ./bootstrap.sh
+RUN wget https://www.materialscloud.org/discover/data/discover/sssp/downloads/SSSP_efficiency_pseudos.tar.gz \
+    && tar -xzf SSSP_efficiency_pseudos.tar.gz && rm SSSP_efficiency_pseudos.tar.gz \
+    && ./bootstrap.sh
 
+# The entrypoint runs the database and rabbitmq before running any other code
 WORKDIR /home/aiida/code
 COPY entrypoint.sh /bin/entrypoint.sh
 ENTRYPOINT ["/bin/entrypoint.sh"]

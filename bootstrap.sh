@@ -45,6 +45,6 @@ verdi code setup \
     --input-plugin quantumespresso.cp
 
 verdi data upf uploadfamily \
-    /home/aiida/pseudos \
+    ./SSSP_efficiency_pseudos \
     "SSSP-Efficiency" \
     "Collection of SSSP Efficiency pseudos"
