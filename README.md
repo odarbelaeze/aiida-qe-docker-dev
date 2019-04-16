@@ -10,16 +10,20 @@ First you need to build the image:
 git clone https://github.com/odarbelaeze/aiida-qe-docker-dev.git
 cd aiida-qe-docker-dev
 # The args make the aiida user match your user
-docker build --build-arg GID=`id -g` --build-arg UID=`id -u` -t aiida-qe-dev .
+docker build \
+    --build-arg GID=`id -g` \
+    --build-arg UID=`id -u` \
+    --build-arg PYTHON=python3 \
+    -t aiida-qe-dev:py3 -t aiida-qe-dev:latest .
 ```
 
 You can also build an image to work with legacy python:
 
 ```
 docker build \
-    --build-arg GID=`id -g`
-    --build-arg UID=`id -u`
-    --build-arg PYTHON=python
+    --build-arg GID=`id -g` \
+    --build-arg UID=`id -u` \
+    --build-arg PYTHON=python \
     -t aiida-qe-dev:py2 .
 ```
 
