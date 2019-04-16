@@ -9,9 +9,10 @@ sudo -u postgres psql -c "CREATE USER aiida WITH PASSWORD 'password';"
 sudo -u postgres psql -c "CREATE DATABASE aiidadb OWNER aiida ENCODING 'UTF8' LC_COLLATE='en_US.UTF-8' LC_CTYPE='en_US.UTF-8' TEMPLATE=template0;"
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE aiidadb to aiida;"
 
-verdi setup default \
+verdi setup \
+    --profile default \
     --non-interactive \
-    --backend django \
+    --db-backend django \
     --db-host localhost \
     --db-port 5432 \
     --db-name aiidadb \
@@ -20,8 +21,7 @@ verdi setup default \
     --repository /home/aiida/scratch \
     --email email@institution.ch \
     --first-name User --last-name Last \
-    --institution institution \
-    --force
+    --institution institution
 
 verdi computer setup \
     --non-interactive \

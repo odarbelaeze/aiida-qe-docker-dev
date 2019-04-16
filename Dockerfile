@@ -36,6 +36,8 @@ WORKDIR /home/aiida
 # Prepare virtual environment with latest aiida core develop and latest plugin
 RUN wget https://github.com/aiidateam/aiida-quantumespresso/archive/develop.zip \
     && unzip develop.zip && rm develop.zip \
+    && wget https://www.materialscloud.org/discover/data/discover/sssp/downloads/SSSP_efficiency_pseudos.tar.gz \
+    && tar -xzf SSSP_efficiency_pseudos.tar.gz && rm SSSP_efficiency_pseudos.tar.gz \
     && ${PYTHON} -m virtualenv --python=${PYTHON} venv && . venv/bin/activate \
     && pip install -U "pip<19" \
     && pip install -U git+https://github.com/aiidateam/aiida_core@develop \
@@ -44,9 +46,7 @@ RUN wget https://github.com/aiidateam/aiida-quantumespresso/archive/develop.zip 
 
 # Prepare the database so that verdi has some prerequisits to run from
 COPY bootstrap.sh bootstrap.sh
-RUN wget https://www.materialscloud.org/discover/data/discover/sssp/downloads/SSSP_efficiency_pseudos.tar.gz \
-    && tar -xzf SSSP_efficiency_pseudos.tar.gz && rm SSSP_efficiency_pseudos.tar.gz \
-    && ./bootstrap.sh
+RUN ./bootstrap.sh
 
 # The entrypoint runs the database and rabbitmq before running any other code
 WORKDIR /home/aiida/code
