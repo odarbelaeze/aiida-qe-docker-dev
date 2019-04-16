@@ -17,7 +17,7 @@ espresso:
 
 ```
 # This will drop you into a shell with aiida-quantumespresso on it
-docker run --rm --it -v /path/to/aiida/quantumespresso:/home/aiida/code aiida-qe-dev
+docker run --rm -it -v /path/to/aiida/quantumespresso:/home/aiida/code aiida-qe-dev
 # You should install your "local version of the repo"
 pip install -e .
 # Then you can issue some commands as though you were in your terminal
@@ -34,4 +34,4 @@ python -m pytest tests/
 
 [plugin repo]: https://github.com/aiidateam/aiida-quantumespresso
 [aiida develop]: https://github.com/aiidateam/aiida_core
-[sssp efficiency]: https://www.materialscloud.org/discover/data/discover/sssp/downloads/SSSP_efficiency_pseudos.tar.gz 
+[sssp efficiency]: https://www.materialscloud.org/discover/data/discover/sssp/downloads/SSSP_efficiency_pseudos.tar.gz
