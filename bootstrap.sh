@@ -42,6 +42,14 @@ verdi code setup \
     --label pw.x \
     --on-computer \
     --computer localhost \
+    --remote-abs-path /usr/bin/pw.x \
+    --input-plugin quantumespresso.pw
+
+verdi code setup \
+    --non-interactive \
+    --label cp.x \
+    --on-computer \
+    --computer localhost \
     --remote-abs-path /usr/bin/cp.x \
     --input-plugin quantumespresso.cp
 
